@@ -42,12 +42,7 @@ angular.module('login', [
             // Use a url of "/" to set a states as the "index".
             url: "/register",
             templateUrl: "security_app/register/register.html", 
-            resolve : {        
-               groups: function($q, groups_list_public_resources){
-               var deferred = $q.defer();
-               groups_list_public_resources().query({}, function(data){ deferred.resolve(data);})
-               return deferred.promise;
-         }},
+  
             access : access.public,
             controller: "register_ctrl",
             
