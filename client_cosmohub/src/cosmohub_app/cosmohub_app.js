@@ -8,6 +8,7 @@ angular.module('catalog', [
   'homepage_cat',
   'paudm.breadcrumbs',
   'contact',
+  'ready.services',
   ])
   .run(
       [        '$rootScope', '$state', '$stateParams','$location','user_auth',
@@ -85,3 +86,24 @@ angular.module('catalog', [
         }
     };
 });
+
+angular.module('ready.services', [])
+    .factory('cordovaReady', [function () {
+        return function (fn) {
+            var queue = [],
+                impl = function () {
+                    queue.push([].slice.call(arguments));
+                };
+
+            document.addEventListener('deviceready', function () {
+                queue.forEach(function (args) {
+                    fn.apply(this, args);
+                });
+                impl = fn;
+            }, false);
+
+            return function () {
+                return impl.apply(this, arguments);
+            };
+        };
+    }]);
